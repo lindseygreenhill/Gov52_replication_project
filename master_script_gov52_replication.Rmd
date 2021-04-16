@@ -14,6 +14,7 @@ library(MASS)
 library(labelled)
 library(gtsummary)
 library(gt)
+library(stargazer)
 library(tidyverse)
 ```
 
@@ -93,5 +94,45 @@ tbl_1 <- sum_tab %>%
   gt() %>%
   fmt_number(columns = 2:5,
              decimals = 1)
+```
+
+Possible extension is creating a different measure of competitiveness
+
+## Table 2
+
+```{r tbl_2, echo=FALSE}
+##Table 2 Model of Presidential Disaster Declarations, Pooled Model (Column 1)
+##and Split Sample Model (Columns 2 and 3) (p. 1147)
+
+##Col 1 (full)
+reg<-glm(fema.dis ~ priv.dis + INSURADJ.L + log(ppinc.adj) + ev + comp + reagan1 + reagan2 + bush + clinton1 + wbush + p2 + p3 + p4 + cong.pres + pres.party + as.factor(state), family = poisson, data=data)
+
+##Col 2 (pre-Stafford)
+reg1<-glm(fema.dis ~ priv.dis + INSURADJ.L + log(ppinc.adj) + ev + comp + reagan1 + p2 + p3 + p4 + cong.pres + pres.party + as.factor(state), family = poisson, data=data[data$year < 1989,])
+
+##Col 3 (post-stafford)
+reg2 <- glm(fema.dis ~ priv.dis + INSURADJ.L + log(ppinc.adj) + ev + comp + bush + clinton1 + wbush + p2 + p3 + p4 + cong.pres + pres.party + as.factor(state), family = poisson, data=data[data$year>1988,])
+
+# stargazer table
+
+tbl_2 <- stargazer(reg, reg1, reg2,
+          title = "Model of Presidential Disaster Declarations,\n Pooled Model (Column 1)\nand Split Sample Model (Columns 2 and 3)",
+          align = TRUE,
+          type = "latex",
+          omit = "state",
+          order = c("comp", "priv.dis", "INSURADJ.L",
+                    "ppinc.adj",
+                    "ev", "p2", "p3", "p4",
+                    "cong.pres", "pres.party",
+                    "reagan1", "reagan2",
+                    "bush", "clinton1", "wbush"),
+          covariate.labels = c("Competitiveness", "Actual Disasters",
+                               "Insurance cost (logged)", "Per capita income", "Electoral Votes", "year 2 of admin",
+                               "year 3 of admin", "year 4 of admin", "Congressional partisanship", "President / Governor same party",
+                               "Reagan (term 1)", "Reagan (term 2)", "GHW Bush",
+                               "W Bush", "Clinton (term 1)", "Intercept"),
+          digits = 2,
+          column.labels = c("full", "pre-Stafford", "post-Stafford"),
+          keep.stat = c("n", "aic", "bic", "ll"))
 ```
 
