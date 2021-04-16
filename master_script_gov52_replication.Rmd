@@ -1,0 +1,97 @@
+---
+title: "master_script_gov52_replication"
+author: "Lindsey Greenhill"
+date: "4/16/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(gtools)
+library(apsrtable)
+library(MASS)
+library(labelled)
+library(gtsummary)
+library(gt)
+library(tidyverse)
+```
+
+```{r data, include=FALSE}
+
+# reading in the two data frames the data is the almost 1,000 presidential
+# disasters declared from 1981 to 2004. Unit is number of disasters in each
+# state per year. So for 24 years and 50 states there are a total of 1,200 observations
+
+data <- read.csv("political_disaster_replication_t2.csv",
+                 stringsAsFactors = FALSE)
+
+data <- data  %>%
+  mutate(ppinc.adj.log = log(ppinc.adj))
+data1<-read.csv("political_disaster_replication_t3.csv")
+
+# giving data attribute labels
+attr(data$fema.dis, "label", "Presidential Disaster Declarations")
+attr(data$priv.dis, "label", "Actual Disasters")
+attr(data$ev, "label", "Electoral Votes")
+attr(data$comp, "label", "Competitiveness")
+attr(data$ppinc.adj.log, "label", "Per Capita Personal Income (logged)")
+attr(data$INSURADJ.L, "label", "Insurance Dollars (logged)")
+attr(data$cong.pres, "label", "Congressional Delegation Same party as the President")
+attr(data$pres.party, "label", "Governor Same Party as the President")
+
+```
+
+## Table 1
+
+```{r tbl_1, include=FALSE}
+
+# table 1 is summary statistics of presidential disaster declarations, actual
+# disasters, electoral votes, competitiveness,  per  capita personal income
+# (logged),insurance dollars (logged), congressional delegation sameparty as
+# president, and governor same party as  the president
+
+
+# creating initial  summary table to base for loop off of
+
+sum_tab <- tibble(variable = "Presidential Disaster Declaration", Mean = mean(data$fema.dis),
+                  Std_Dev = sd(data$fema.dis),
+                  Min = min(data$fema.dis),
+                  Max = max(data$fema.dis))
+
+# just selecting variables I'm creating summaries of
+
+data_sum <- data %>%
+  select(fema.dis, priv.dis, ev, comp, ppinc.adj.log, INSURADJ.L, cong.pres, pres.party)
+
+# creating a vector of labels for the summary table
+
+labs <- c("Presidential Disaster Declarations", "Actual Disasters", "Electoral Votes",
+          "Competitiveness", 
+          "Per Capita Personal Income (logged)", 
+          "InsuranceDollars (logged)", 
+          "Congressional Delegation Same party as the President", 
+          "Governor Same Party as the President")
+
+# using a for loop to do the rest of the summary table
+
+for(i in 2:8){
+  mean <- mean(data_sum[,i])
+  sd <- sd(data_sum[,i])
+  min <- min(data_sum[,i])
+  max <- max(data_sum[,i])
+  vec <- tibble(variable = labs[i], Mean = mean,
+                  Std_Dev = sd,
+                  Min = min,
+                  Max = max)
+  sum_tab <- rbind(sum_tab, vec)
+}
+
+# turning summary table into gt object
+
+tbl_1 <- sum_tab %>%
+  gt() %>%
+  fmt_number(columns = 2:5,
+             decimals = 1)
+```
+
