@@ -33,14 +33,11 @@ data <- data  %>%
 data1<-read.csv("political_disaster_replication_t3.csv")
 
 # giving data attribute labels
-attr(data$fema.dis, "label", "Presidential Disaster Declarations")
-attr(data$priv.dis, "label", "Actual Disasters")
-attr(data$ev, "label", "Electoral Votes")
-attr(data$comp, "label", "Competitiveness")
-attr(data$ppinc.adj.log, "label", "Per Capita Personal Income (logged)")
-attr(data$INSURADJ.L, "label", "Insurance Dollars (logged)")
-attr(data$cong.pres, "label", "Congressional Delegation Same party as the President")
-attr(data$pres.party, "label", "Governor Same Party as the President")
+# classifying states as either high or low competition based off of median
+
+data <- data %>%
+  mutate(comp_level = if_else(comp > quantile(data$comp, .75, names = FALSE), "highly_competitive",
+                              if_else(comp < quantile(data$comp, .25, names = FALSE), "not competitive", "medium")))
 
 ```
 
@@ -140,10 +137,10 @@ tbl_2 <- stargazer(reg, reg1, reg2,
 
 ## Figure 1
 
-```{r}
+```{r fig_1, message=FALSE, include=FALSE}
 
 data_post <- data %>%
-  filter(year  > 1988)
+  filter(year > 1988)
 # creating predicted responses
 
 data_post$phat <- predict(reg2, type = "response")
@@ -155,10 +152,95 @@ ggplot(data_post, aes(x = comp, y = fema.dis)) +
               method.args = list(family = "poisson")) +
   theme_classic()
 
-plot_model(reg2, type = "eff",
+fig_1 <- plot_model(reg2, type = "eff",
            terms = "comp",
            ci.lvl = NA,
            axis.lim = list(c(25,50), c(0,1.5))) +
+  theme_classic() +
+  labs(title = "Figure 1: Effect of Competitiveness  on Number\n of  Disaster Declarattions, Post-Stafford Act Only",
+       x = "Competitiveness",
+       y = "Expected Number of Disaster Declarations")
+```
+
+
+## Figure 2
+
+```{r}
+
+# already made predictions for post stafford act but now need to do it for pre
+
+data_pre <- data_post <- data %>%
+  filter(year < 1989)
+
+# making phat predictions for data pre
+
+data_pre$phat <- predict(reg1, type = "response")
+
+# looking at the difference in means pre stafford
+
+data_pre %>%
+  group_by(comp_level) %>%
+  summarise(avg_phat = mean(phat))
+
+# looking at the difference in means post stafford. Much  more of a difference
+
+data_post %>%
+  group_by(comp_level) %>%
+  summarise(avg_phat = mean(phat))
+
+data_pre %>%
+  ggplot(aes(x = phat, fill = comp_level))  +
+  geom_histogram(aes(y = ..density..), 
+                 alpha = .5, binwidth = .05, position = "identity") 
+
+data_post %>%
+  filter(comp_level != "medium") %>%
+  ggplot(aes(x = phat, fill = comp_level))  +
+  geom_histogram(aes(y = ..density..), 
+                 alpha = .5, binwidth = .05, position = "identity") +
+  geom_vline(xintercept = 1.05, col = "indianred") +
+  geom_vline(xintercept = .55, col = "steelblue2") +
+  scale_x_continuous(limits = c(0,2)) +
   theme_classic()
+
+dp_c <-data_post %>%
+  filter(comp_level  == "highly_competitive")
+
+p1 <- hist(x = dp_c$phat)
+
+```
+
+## Table 3
+
+```{r}
+##Col 1
+pvote1<-lm(curr.pct ~  prev.pct + fema.dis  + log(ppinc.adj) + pinc.chg + cong.pres + pres.party  + comp + ev + incumb + as.factor(state), data = data1)
+
+##Col 2
+pvote2<-lm(curr.pct ~  prev.pct + sqrt(fema.dis)  + log(ppinc.adj) + pinc.chg + cong.pres + pres.party  + comp + ev + incumb + as.factor(state), data = data1)
+
+tbl_3 <- stargazer(pvote1, pvote2,
+          title = "Model of State-Wide Presidential Election Outcomes",
+          align = TRUE,
+          type = "text",
+          omit = "state",
+          order = c("fema.dis", "prev.pct",
+                    "ppinc.adj", "pinc.chg",
+                    "cong.pres", "pres.party",
+                    "comp", "ev", "incumb"),
+          covariate.labels = c("Presidential Disaster Declarations",
+                               "Presidential Disaster Declarations (sqrt)",
+                               "Previous Vote Share",
+                               "Personal Per Capita Income (logged)",
+                               "Change in Per Capita Income",
+                               "Congressional Partisanship",
+                               "Governor's Partisanship",
+                               "Competitiveness",
+                               "Electoral Votes",
+                               "Incumbent",
+                               "Intercept"),
+          digits = 2,
+          column.labels = c("Model 1", "Model 2"),
+          keep.stat = c("n", "rsq",  "adj.rsq"))
 ```
 
