@@ -139,11 +139,12 @@ tbl_2 <- stargazer(reg, reg1, reg2,
 
 ```{r fig_1, message=FALSE, include=FALSE}
 
-data_post <- data %>%
-  filter(year > 1988)
-# creating predicted responses
+# creating data for post stafford. Maybe I should put this at the top?
 
-data_post$phat <- predict(reg2, type = "response")
+data_post <- data %>%
+  filter(year > 1988) %>%
+  mutate(phat = predict(reg2, type = "response"))
+
 
 # this isn't quite right/the same but I don't know why
 
@@ -165,35 +166,49 @@ fig_1 <- plot_model(reg2, type = "eff",
 
 ## Figure 2
 
-```{r}
+```{r fig_2, include=FALSE}
 
 # already made predictions for post stafford act but now need to do it for pre
 
-data_pre <- data_post <- data %>%
-  filter(year < 1989)
+data_pre <- data %>%
+  filter(year < 1989) %>%
+  mutate(phat = predict(reg1, type = "response"))
 
-# making phat predictions for data pre
-
-data_pre$phat <- predict(reg1, type = "response")
 
 # looking at the difference in means pre stafford
 
-data_pre %>%
+pre_summaries <- data_pre %>%
   group_by(comp_level) %>%
   summarise(avg_phat = mean(phat))
 
 # looking at the difference in means post stafford. Much  more of a difference
 
-data_post %>%
+post_summaries <- data_post %>%
   group_by(comp_level) %>%
   summarise(avg_phat = mean(phat))
 
-data_pre %>%
+# filtering to only low and high competition (defined as 25% and 75% of
+# competitiveness)
+
+# creating first part of graph for pre stafford era using predictions from reg1
+
+fig_2_a <- data_pre %>%
+  filter(comp_level != "medium") %>%
   ggplot(aes(x = phat, fill = comp_level))  +
   geom_histogram(aes(y = ..density..), 
-                 alpha = .5, binwidth = .05, position = "identity") 
+                 alpha = .5, binwidth = .05, position = "identity") +
+  geom_vline(xintercept = .32, col = "indianred") +
+  geom_vline(xintercept = .37, col = "steelblue2") +
+  scale_x_continuous(limits = c(0,2)) +
+  scale_fill_manual(values = c("indianred", "steelblue2")) +
+  labs(title = "Predicted Disasters by Competitiveness Pre-Stafford",
+       x = "Predicted Values",
+       y = "Density") +
+  theme_classic()
 
-data_post %>%
+# creating second part of the graph for post stafford era using predictions from reg2
+
+fig_2_b <- data_post %>%
   filter(comp_level != "medium") %>%
   ggplot(aes(x = phat, fill = comp_level))  +
   geom_histogram(aes(y = ..density..), 
@@ -201,22 +216,24 @@ data_post %>%
   geom_vline(xintercept = 1.05, col = "indianred") +
   geom_vline(xintercept = .55, col = "steelblue2") +
   scale_x_continuous(limits = c(0,2)) +
+  scale_fill_manual(values = c("indianred", "steelblue2")) +
+  labs(title = "Predicted Disasters by Competitiveness Post-Stafford",
+       x = "Predicted Values",
+       y = "Density") +
   theme_classic()
 
-dp_c <-data_post %>%
-  filter(comp_level  == "highly_competitive")
-
-p1 <- hist(x = dp_c$phat)
 
 ```
 
 ## Table 3
 
-```{r}
-##Col 1
+```{r tbl_3, include=FALSE}
+
+# Col 1
 pvote1<-lm(curr.pct ~  prev.pct + fema.dis  + log(ppinc.adj) + pinc.chg + cong.pres + pres.party  + comp + ev + incumb + as.factor(state), data = data1)
 
-##Col 2
+# Col 2
+
 pvote2<-lm(curr.pct ~  prev.pct + sqrt(fema.dis)  + log(ppinc.adj) + pinc.chg + cong.pres + pres.party  + comp + ev + incumb + as.factor(state), data = data1)
 
 tbl_3 <- stargazer(pvote1, pvote2,

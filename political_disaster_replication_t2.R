@@ -13,7 +13,8 @@ rm(list = ls())
 ##Load the data
 data <- read.csv("political_disaster_replication_t2.csv", stringsAsFactors = FALSE)
 
-##Table 2 Model of Presidential Disaster Declarations, Pooled Model (Column 1) and Split Sample Model (Columns 2 and 3) (p. 1147)
+##Table 2 Model of Presidential Disaster Declarations, Pooled Model (Column 1)
+##and Split Sample Model (Columns 2 and 3) (p. 1147)
 
 ##Col 1 (full)
 reg<-glm(fema.dis ~ priv.dis + INSURADJ.L + log(ppinc.adj) + ev + comp + reagan1 + reagan2 + bush + clinton1 + wbush + p2 + p3 + p4 + cong.pres + pres.party + as.factor(state), family = poisson, data=data)
