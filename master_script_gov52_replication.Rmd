@@ -16,6 +16,7 @@ library(gtsummary)
 library(gt)
 library(stargazer)
 library(sjPlot)
+library(ggpubr)
 library(tidyverse)
 ```
 
@@ -166,7 +167,7 @@ fig_1 <- plot_model(reg2, type = "eff",
 
 ## Figure 2
 
-```{r fig_2, include=FALSE}
+```{r fig_2, include=FALSE, message=FALSE, warning=FALSE}
 
 # already made predictions for post stafford act but now need to do it for pre
 
@@ -196,10 +197,10 @@ fig_2_a <- data_pre %>%
   filter(comp_level != "medium") %>%
   ggplot(aes(x = phat, fill = comp_level))  +
   geom_histogram(aes(y = ..density..), 
-                 alpha = .5, binwidth = .05, position = "identity") +
+                 alpha = .5, binwidth = .075, position = "identity") +
   geom_vline(xintercept = .32, col = "indianred") +
   geom_vline(xintercept = .37, col = "steelblue2") +
-  scale_x_continuous(limits = c(0,2)) +
+  scale_x_continuous(limits = c(0,3)) +
   scale_fill_manual(values = c("indianred", "steelblue2")) +
   labs(title = "Predicted Disasters by Competitiveness Pre-Stafford",
        x = "Predicted Values",
@@ -212,16 +213,20 @@ fig_2_b <- data_post %>%
   filter(comp_level != "medium") %>%
   ggplot(aes(x = phat, fill = comp_level))  +
   geom_histogram(aes(y = ..density..), 
-                 alpha = .5, binwidth = .05, position = "identity") +
+                 alpha = .5, binwidth = .075, position = "identity") +
   geom_vline(xintercept = 1.05, col = "indianred") +
   geom_vline(xintercept = .55, col = "steelblue2") +
-  scale_x_continuous(limits = c(0,2)) +
+  scale_x_continuous(limits = c(0,3)) +
   scale_fill_manual(values = c("indianred", "steelblue2")) +
   labs(title = "Predicted Disasters by Competitiveness Post-Stafford",
        x = "Predicted Values",
        y = "Density") +
   theme_classic()
 
+# putting the pre and post graphs together
+
+ggarrange(fig_2_a, fig_2_b,
+          ncol = 1)
 
 ```
 
