@@ -1,5 +1,5 @@
 ---
-title: "master_script_gov52_replication"
+title: "Gov52 Replication Project"
 author: "Lindsey Greenhill"
 date: "4/16/2021"
 output: pdf_document
@@ -99,17 +99,21 @@ Possible extension is creating a different measure of competitiveness
 
 ## Table 2
 
-```{r tbl_2, echo=FALSE}
-##Table 2 Model of Presidential Disaster Declarations, Pooled Model (Column 1)
-##and Split Sample Model (Columns 2 and 3) (p. 1147)
+```{r tbl_2, include=FALSE}
 
-##Col 1 (full)
+# Table 2 Model of Presidential Disaster Declarations, Pooled Model (Column 1)
+# and Split Sample Model (Columns 2 and 3) (p. 1147)
+
+# Col 1 (full)
+
 reg<-glm(fema.dis ~ priv.dis + INSURADJ.L + log(ppinc.adj) + ev + comp + reagan1 + reagan2 + bush + clinton1 + wbush + p2 + p3 + p4 + cong.pres + pres.party + as.factor(state), family = poisson, data=data)
 
-##Col 2 (pre-Stafford)
+# Col 2 (pre-Stafford)
+
 reg1<-glm(fema.dis ~ priv.dis + INSURADJ.L + log(ppinc.adj) + ev + comp + reagan1 + p2 + p3 + p4 + cong.pres + pres.party + as.factor(state), family = poisson, data=data[data$year < 1989,])
 
-##Col 3 (post-stafford)
+# Col 3 (post-stafford)
+
 reg2 <- glm(fema.dis ~ priv.dis + INSURADJ.L + log(ppinc.adj) + ev + comp + bush + clinton1 + wbush + p2 + p3 + p4 + cong.pres + pres.party + as.factor(state), family = poisson, data=data[data$year>1988,])
 
 # stargazer table
@@ -265,4 +269,134 @@ tbl_3 <- stargazer(pvote1, pvote2,
           column.labels = c("Model 1", "Model 2"),
           keep.stat = c("n", "rsq",  "adj.rsq"))
 ```
+
+# Replication of Political Disaster: Unilateral Powers, Electoral Incentives, and Presidential Disaster Declarations
+
+In the following report, I replicate Andrew Reeves's 2011 paper "Political
+Disaster: Unilateral Powers, Electoral Incentives,and Presidential Disaster
+Declarations." I first provide an overview of the original paper, then explain
+my replication process, and finally propose an extension to Reeves's work.
+
+## Overview
+
+Reeves's work explores the relationship between presidential disaster
+declarations and electoral competitiveness. It seeks to find evidence that
+presidents disproportionately declare disasters and reward aid to electorally
+competitive states in an effort to gain votes for reelection. For context, a
+President can declare a disaster without the approval of other branches of
+government. Such a declaration makes states eligible for grants and other sorts
+of aid. In his analysis, Reeves utilizes a data set of all presidential disaster
+declarations in the United States from 1981 to 2004. The unit of analysis is the
+amount of disaster declarations in a state per year. Reeves purposefully split
+his analysis into two parts: years before and after the Stafford Disaster Relief
+and Emergenccy Assistance Act of 1988. The Stafford Act expanded the powers of
+the president to provide disaster relief. Ultimately, Reeves finds that after
+1988, there is a positive relationship between electoral competitiveness and
+number and disaster declarations. Additionally, Reeves finds evidence that there
+is a positive relationship between disaster declarations and electoral support,
+meaning that states who received more disaster declarations were more likely to
+support the incumbent president in the next election.
+
+## Replication
+
+For the replication part of this report, I replicated the paper's two models and
+two figures. I will describe the specifics of each part of the replication
+below.
+
+* Note on the data: I did not have to do any data cleaning for the replication,
+as the replication data had no missing values and was already transformed into
+its final state
+
+### Table 1
+
+The first table I replicated is summary table of key variables used in Reeves's
+analysis. The variables are as follows:
+
+* Presidential Disaster Declarations: how many disasters declared a state for
+that year
+
+* Actual Disasters: objective count of disasters according to the Property
+Claims Service, a branch of the Insurance Services Office (a private company
+contracted by insurance companies)
+
+* Electoral Votes
+
+* Competitiveness: measured by the average of the loser's vote margin in the 
+last three elections
+
+* Logged Per Capita Personal Income
+
+* Logged Insurance Dollars: the inflation-adjusted dollar value of the actual
+disasters recorded by the ISO.
+
+* Congressional Delegation Same party as the President: whether or not a state
+congressional delegation's partisanship is the same as the president's
+
+* Governor Same Party as the President: whether or not the governor's
+partisanship is the same as the president's
+
+```{r echo=FALSE}
+tbl_1
+```
+
+### Discussion
+
+There is significant variation across many of the variables, especially within
+actual disasters and presidential disaster declarations. 
+
+### Model 1
+
+The first model I replicated is a Poisson regression. Reeves actually creates
+three different models: one with all of the data from 1981 - 2004, one with data
+pre stafford act (1981 to 1988), and one with data post Stafford act (1988 - 2004).
+I replicated all three models. They are shown in the table below. 
+
+As a reminder, the unit of analysis in the data set is a state-year. For example,
+Wyoming in 1981. 
+
+The dependent variable is **number of disaster declarations** in each state-year.
+
+The independent variables are as follows:
+
+* Competitiveness, actual disasters, logged insurance dolalrs, per capita
+income, electoral votes, congressional/presidential partisanship,
+gubernatorial/presidential partisanship, an indicator variable for year of
+administration, and control variables for each administration from 1981 - 2004
+(Reagan 1, Reagan 2, GHW Bush, Clinton, W Bush)
+
+```{r echo=FALSE}
+tbl_2
+```
+
+### Discussion and Interpretation of Key Coefficients
+
+* Interestingly, competitiveness is not statistically significant in the pre
+Stafford act model. However, in both the full and post Stafford model, the
+effect of competitiveness is positive and statistically significant. This makes
+sense, as presidents did not have the power to make as large of an impact pre
+stafford act. Post stafford act, it makes sense that presidents tried to
+leverage their new power in the hopes of gaining more electoral support.
+
+* The effect of actual disasters is positive and statistically significant in
+all three models. It makes sense, and is perhaps obvious, that as actual
+disasters increase disaster declarations also increase.
+
+* The effect of insurance dollars is positive in all models but only
+statistically significant for the full model. This suggests that the size of a
+disaster is not necessarily correlated with an increased likelihood in a
+disaster declaration.
+
+* The effect of year of administration changes from pre Stafford to post
+Stafford. Pre Stafford act, the president (Reagan) declared the most disasters
+on average in year 2 of the administration. Post Stafford act, the presidents on
+average declared the most disasters in year 4 of administration. It makes sense
+that presidents were more likely to declare disasters near the end of their
+term, in election years, if they wanted to gain the most electoral support for
+their actions. It is similar to the way a president might enact more fiscal
+policy in year 4 in an effort to boost the economy before an election.
+
+
+
+
+
 
