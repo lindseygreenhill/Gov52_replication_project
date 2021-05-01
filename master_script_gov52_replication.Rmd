@@ -26,12 +26,12 @@ library(tidyverse)
 # disasters declared from 1981 to 2004. Unit is number of disasters in each
 # state per year. So for 24 years and 50 states there are a total of 1,200 observations
 
-data <- read.csv("political_disaster_replication_t2.csv",
+data <- read.csv("data/political_disaster_replication_t2.csv",
                  stringsAsFactors = FALSE)
 
 data <- data  %>%
   mutate(ppinc.adj.log = log(ppinc.adj))
-data1<-read.csv("political_disaster_replication_t3.csv")
+data1<-read.csv("data/political_disaster_replication_t3.csv")
 
 # giving data attribute labels
 # classifying states as either high or low competition based off of median
