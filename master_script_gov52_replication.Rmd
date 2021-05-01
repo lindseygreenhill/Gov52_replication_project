@@ -481,7 +481,7 @@ president, whether or not the governor is the same party as the president,
 competitiveness, electoral votes, whether or not the president is an incumbent,
 and an indicator variable for each state.
 
-```{r results = "asis"}
+```{r echo=FALSE, results = "asis"}
 stargazer(pvote1, pvote2,
           title = "Model of State-Wide Presidential Election Outcomes",
           #align = TRUE,
@@ -512,6 +512,23 @@ stargazer(pvote1, pvote2,
 ```
 
 
+### Discussion and Interpretation of Key Coefficients
 
+* There is a statistically significant and positive relationship between
+disaster declarations and vote share. Model 1 predicts that for every additional
+disaster declaration, the presidential vote share increases by 1.29 points on
+average, holding all else constant. Model 2 predicts that the first disaster
+declaration results in an additional 2.17 point addition to the presidential
+vote share on average, holding all else constant. Because Model 2 includes the
+square root of disaster declarations, the second disaster declaration  will have
+a smaller marginal effect of vote share, and  the third  declaration will have a
+smaller effect than the second, and so on. These findings suggest that
+presidential disaster declarations are effective in garnering support in
+elections.
+
+* The rest of the variables are meant for control and are not surprising.
+Previous vote share, per capita income, change in per capita income,
+congressional partisanship, and competitiveness are statistically
+significant.
 
 
