@@ -230,7 +230,7 @@ fig_2_b <- data_post %>%
 
 # putting the pre and post graphs together
 
-ggarrange(fig_2_a, fig_2_b,
+fig_2 <- ggarrange(fig_2_a, fig_2_b,
           ncol = 1)
 
 ```
@@ -248,7 +248,7 @@ pvote2<-lm(curr.pct ~  prev.pct + sqrt(fema.dis)  + log(ppinc.adj) + pinc.chg + 
 
 tbl_3 <- stargazer(pvote1, pvote2,
           title = "Model of State-Wide Presidential Election Outcomes",
-          align = TRUE,
+          #align = TRUE,
           type = "text",
           omit = "state",
           order = c("fema.dis", "prev.pct",
@@ -300,9 +300,9 @@ support the incumbent president in the next election.
 
 ## Replication
 
-For the replication part of this report, I replicated the paper's two models and
-two figures. I will describe the specifics of each part of the replication
-below.
+For the replication part of this report, I replicated the paper's one summary
+table, two models, and two figures. I will describe the specifics of each part
+of the replication below.
 
 * Note on the data: I did not have to do any data cleaning for the replication,
 as the replication data had no missing values and was already transformed into
@@ -419,6 +419,97 @@ term, in election years, if they wanted to gain the most electoral support for
 their actions. It is similar to the way a president might enact more fiscal
 policy in year 4 in an effort to boost the economy before an election.
 
+### Figure 1
+
+In the figure below, I show the marginal effect of competitiveness on predicted
+disaster declarations for the post Stafford era model. I used the sjPlot 
+library for my analysis. 
+
+```{r  echo=FALSE}
+fig_1
+```
+
+
+### Discussion
+
+As competitiveness increases, the model predicts that the expected number of 
+disaster declarations also increases. Looking at the model above, the effect
+is statistically significant. Substantively, this finding suggests that 
+presidents are more likely to give disaster support to key battleground states.
+
+### Figure 2
+
+The following figure also shows the effect of competitiveness on expected
+disaster declarations. To produce the figure, I calculated the predicted y
+values for both the pre and post stafford models (using the predict function). I
+then classified the predicted y values by competitiveness. I defined a
+prediction as highly competitive if it came from a state in the top 25 percent
+of competitiveness. I defined a prediction as no competitive if it came from a
+state in the bottom 25 percent of competitiveness.
+
+```{r echo=FALSE}
+fig_2
+```
+
+
+### Discussion
+
+This figures shows the different effects of competitiveness for the pre and post
+Stafford models. In the pre stafford model, the predicted y values for highly
+competitive and not competitive states are not systematically different. The
+average prediction values (shown by the vertical lines) for the two categories
+are very similar. Contrastingly, the predicted values for the post Stafford 
+model vary significantly based on competitiveness. The average predicted
+value for highly competitive states is much higher than the average
+predicted value for not competitive states. 
+
+### Model 2
+
+This Least Squares Regression looks at the effect of presidential disaster
+declarations on election outcomes. Model 1 predicts election outcomes using
+number of disaster declarations and Model 2 predicts election outcomes using the
+square root transformation of the number of disaster declarations.
+
+The dependent variable in this model is **presidential vote share**
+
+The indepenent variables are as follows:
+
+* number of presidential disaster declarations (sqrt of this in Model 2), party
+vote share in last election, logged per capita income, change in per capita
+income, whether or not the congressional delegation is the same party as the
+president, whether or not the governor is the same party as the president,
+competitiveness, electoral votes, whether or not the president is an incumbent,
+and an indicator variable for each state.
+
+```{r results = "asis"}
+stargazer(pvote1, pvote2,
+          title = "Model of State-Wide Presidential Election Outcomes",
+          #align = TRUE,
+          type = "latex",
+          omit = "state",
+          order = c("fema.dis", "prev.pct",
+                    "ppinc.adj", "pinc.chg",
+                    "cong.pres", "pres.party",
+                    "comp", "ev", "incumb"),
+          covariate.labels = c("Presidential Disaster Declarations",
+                               "Presidential Disaster Declarations (sqrt)",
+                               "Previous Vote Share",
+                               "Personal Per Capita Income (logged)",
+                               "Change in Per Capita Income",
+                               "Congressional Partisanship",
+                               "Governor's Partisanship",
+                               "Competitiveness",
+                               "Electoral Votes",
+                               "Incumbent",
+                               "Intercept"),
+          digits = 2,
+          column.labels = c("Model 1", "Model 2"),
+          keep.stat = c("n", "rsq",  "adj.rsq"),
+          header = FALSE,
+          no.space = TRUE,
+          column.sep.width = "3pt",
+          font.size = "small")
+```
 
 
 
