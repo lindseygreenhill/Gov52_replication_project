@@ -42,7 +42,7 @@ data <- data %>%
 
 ```
 
-## Table 1
+
 
 ```{r tbl_1, include=FALSE}
 
@@ -95,9 +95,7 @@ tbl_1 <- sum_tab %>%
              decimals = 1)
 ```
 
-Possible extension is creating a different measure of competitiveness
 
-## Table 2
 
 ```{r tbl_2, include=FALSE, results = "asis"}
 
@@ -141,8 +139,6 @@ tbl_2 <- stargazer(reg, reg1, reg2,
 ```
 
 
-## Figure 1
-
 ```{r fig_1, message=FALSE, include=FALSE}
 
 # creating data for post stafford. Maybe I should put this at the top?
@@ -169,8 +165,6 @@ fig_1 <- plot_model(reg2, type = "eff",
        y = "Expected Number of Disaster Declarations")
 ```
 
-
-## Figure 2
 
 ```{r fig_2, include=FALSE, message=FALSE, warning=FALSE}
 
@@ -235,16 +229,18 @@ fig_2 <- ggarrange(fig_2_a, fig_2_b,
 
 ```
 
-## Table 3
 
 ```{r tbl_3, include=FALSE}
 
-# Col 1
+# Col 1. Taken from replication code
+
 pvote1<-lm(curr.pct ~  prev.pct + fema.dis  + log(ppinc.adj) + pinc.chg + cong.pres + pres.party  + comp + ev + incumb + as.factor(state), data = data1)
 
-# Col 2
+# Col 2. Taken from replication code
 
 pvote2<-lm(curr.pct ~  prev.pct + sqrt(fema.dis)  + log(ppinc.adj) + pinc.chg + cong.pres + pres.party  + comp + ev + incumb + as.factor(state), data = data1)
+
+# making stargazer table
 
 tbl_3 <- stargazer(pvote1, pvote2,
           title = "Model of State-Wide Presidential Election Outcomes",
@@ -271,7 +267,8 @@ tbl_3 <- stargazer(pvote1, pvote2,
           keep.stat = c("n", "rsq",  "adj.rsq"))
 ```
 
-# Replication of Political Disaster: Unilateral Powers, Electoral Incentives, and Presidential Disaster Declarations
+# Replication of Political Disaster: Unilateral Powers, Electoral Incentives,
+and Presidential Disaster Declarations
 
 In the following report, I replicate Andrew Reeves's 2011 paper "Political
 Disaster: Unilateral Powers, Electoral Incentives,and Presidential Disaster
@@ -530,5 +527,120 @@ elections.
 Previous vote share, per capita income, change in per capita income,
 congressional partisanship, and competitiveness are statistically
 significant.
+
+
+## Extension: predictions
+
+```{r ext}
+
+FL <- data %>%
+  filter(state == "Florida")
+
+FL %>% 
+  arrange(desc(fema.dis))
+
+# making predictions for FL pre and post stafford act
+
+FL_pre <- FL %>%
+  filter(year < 1989)
+
+FL_post <- FL %>%
+  filter(year > 1988)
+
+# pre stafford act
+
+FL_pre_pred <- predict(reg1, newdata = FL_pre)
+
+FL_pre_1 <- FL_pre %>%
+  cbind(FL_pre_pred) %>%
+  mutate(yhat = FL_pre_pred) %>%
+  select(-FL_pre_pred)
+
+# post stafford act
+
+FL_post_pred <- predict(reg1, newdata = FL_post)
+
+FL_post_1 <- FL_post %>%
+  cbind(FL_post_pred) %>%
+  mutate(yhat = FL_post_pred) %>%
+  select(-FL_post_pred)
+
+# combining the prediction dfs
+
+FL_comb <- rbind(FL_pre_1, FL_post_1)
+
+
+FL_comb %>%
+  ggplot(aes(x = year)) +
+  geom_point(aes(y = yhat), col = "red") +
+  geom_point(aes(y = fema.dis), col = "blue") +
+  theme_classic()
+
+
+FL_comb %>%
+  ggplot(aes(x = comp, y = yhat)) +
+  geom_point() +
+  labs(title = "FL Competitiveness over Time") +
+  theme_classic()
+
+
+```
+
+
+```{r}
+
+PA <- data %>%
+  filter(state == "Pennsylvania")
+
+PA %>% 
+  arrange(desc(fema.dis))
+
+# making predictions for PA pre and post stafford act
+
+PA_pre <- PA %>%
+  filter(year < 1989)
+
+PA_post <- PA %>%
+  filter(year > 1988)
+
+# pre stafford act
+
+PA_pre_pred <- predict(reg1, newdata = PA_pre)
+
+PA_pre_1 <- PA_pre %>%
+  cbind(PA_pre_pred) %>%
+  mutate(yhat = PA_pre_pred) %>%
+  select(-PA_pre_pred)
+
+# post stafford act
+
+PA_post_pred <- predict(reg1, newdata = PA_post)
+
+PA_post_1 <- PA_post %>%
+  cbind(PA_post_pred) %>%
+  mutate(yhat = PA_post_pred) %>%
+  select(-PA_post_pred)
+
+# combining the prediction dfs
+
+PA_comb <- rbind(PA_pre_1, PA_post_1)
+
+
+PA_comb %>%
+  ggplot(aes(x = year)) +
+  geom_point(aes(y = yhat), col = "red") +
+  geom_point(aes(y = fema.dis), col = "blue") +
+  theme_classic()
+
+
+PA_comb %>%
+  ggplot(aes(x = comp, y = yhat)) +
+  geom_point() +
+  labs(title = "PA Competitiveness over Time") +
+  theme_classic()
+```
+
+
+
 
 
