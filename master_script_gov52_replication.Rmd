@@ -545,64 +545,9 @@ significant.
 Need to make this way more detailed. Maybe I take states with the biggest
 changes in electoral competitiveness
 
-```{r ext_FL}
-
-FL <- data %>%
-  filter(state == "Florida")
-
-FL %>% 
-  arrange(desc(fema.dis))
-
-# making predictions for FL pre and post stafford act
-
-FL_pre <- FL %>%
-  filter(year < 1989)
-
-FL_post <- FL %>%
-  filter(year > 1988)
-
-# pre stafford act
-
-FL_pre_pred <- predict(reg1, newdata = FL_pre)
-
-FL_pre_1 <- FL_pre %>%
-  cbind(FL_pre_pred) %>%
-  mutate(yhat = FL_pre_pred) %>%
-  select(-FL_pre_pred)
-
-# post stafford act
-
-FL_post_pred <- predict(reg2, newdata = FL_post)
-
-FL_post_1 <- FL_post %>%
-  cbind(FL_post_pred) %>%
-  mutate(yhat = FL_post_pred) %>%
-  select(-FL_post_pred)
-
-# combining the prediction dfs
-
-FL_comb <- rbind(FL_pre_1, FL_post_1)
 
 
-FL_comb %>%
-  ggplot(aes(x = year)) +
-  geom_point(aes(y = yhat), col = "red") +
-  geom_point(aes(y = fema.dis), col = "blue") +
-  theme_classic()
-
-
-FL_comb %>%
-  ggplot(aes(x = comp, y = yhat)) +
-  geom_point() +
-  labs(title = "FL Competitiveness over Time") +
-  theme_classic()
-
-
-`
-```
-
-
-```{r}
+```{r echo=FALSE}
 # arranging to find the states with the most variation in competitiveness. Those
 # in top ten are Nevada, Georgia, New Hampshire, Arizona, MA, RI, FL, NY, WY, UT
 
@@ -630,6 +575,7 @@ ext_1 <- variable_data %>%
        x = "Year",
        y = "Competitiveness") +
   theme_classic()
+ext_1
   
 ```
 
@@ -679,7 +625,7 @@ state_comp_pred <- function(s){
     geom_point(aes(y = yhat), col = "red") +
     geom_line(aes(y = yhat), col = "red") +
     geom_point(aes(y = fema.dis), col = "blue") +
-    geom_linet(aes(y = fema.dis), col = "blue") +
+    geom_line(aes(y = fema.dis), col = "blue") +
     labs(title = paste0(s, " Model Performance"),
          subtitle = "Predictions in red",
          x = "Year",
@@ -730,7 +676,7 @@ state_comp_pred <- function(s){
 # key coefficients are priv.dis, comp, p4
 ```
 
-```{r}
+```{r include = FALSE}
 
 # function to arrange the plots I made above
 
@@ -742,8 +688,15 @@ ext_grid <- function(s){
 
 }
 
-ext_grid("Alabama")
-
 ```
+
+```{r echo=FALSE}
+ext_grid("Arizona")
+ext_grid("Georgia")
+ext_grid("Massachusetts")
+ext_grid("Nevada")
+ext_grid("New Hampshire")
+```
+
 
 
