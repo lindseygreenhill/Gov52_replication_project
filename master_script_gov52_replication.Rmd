@@ -17,6 +17,9 @@ library(gt)
 library(stargazer)
 library(sjPlot)
 library(ggpubr)
+library(gtable)
+library(grid)
+library(gridExtra)
 library(tidyverse)
 ```
 
@@ -104,15 +107,21 @@ tbl_1 <- sum_tab %>%
 
 # Col 1 (full)
 
-reg<-glm(fema.dis ~ priv.dis + INSURADJ.L + log(ppinc.adj) + ev + comp + reagan1 + reagan2 + bush + clinton1 + wbush + p2 + p3 + p4 + cong.pres + pres.party + as.factor(state), family = poisson, data=data)
+reg <- glm(fema.dis ~ priv.dis + INSURADJ.L + log(ppinc.adj) + ev + comp + reagan1 + reagan2 + bush + clinton1 + wbush + p2 + p3 + p4 + cong.pres + pres.party + as.factor(state),
+         family = poisson,
+         data=data)
 
-# Col 2 (pre-Stafford)
+# Col 2 (pre-Stafford). Replication code. 
 
-reg1<-glm(fema.dis ~ priv.dis + INSURADJ.L + log(ppinc.adj) + ev + comp + reagan1 + p2 + p3 + p4 + cong.pres + pres.party + as.factor(state), family = poisson, data=data[data$year < 1989,])
+reg1 <- glm(fema.dis ~ priv.dis + INSURADJ.L + log(ppinc.adj) + ev + comp + reagan1 + p2 + p3 + p4 + cong.pres + pres.party + as.factor(state),
+            family = poisson, 
+            data=data[data$year < 1989,])
 
 # Col 3 (post-stafford)
 
-reg2 <- glm(fema.dis ~ priv.dis + INSURADJ.L + log(ppinc.adj) + ev + comp + bush + clinton1 + wbush + p2 + p3 + p4 + cong.pres + pres.party + as.factor(state), family = poisson, data=data[data$year>1988,])
+reg2 <- glm(fema.dis ~ priv.dis + INSURADJ.L + log(ppinc.adj) + ev + comp + bush + clinton1 + wbush + p2 + p3 + p4 + cong.pres + pres.party + as.factor(state),
+            family = poisson, 
+            data=data[data$year>1988,])
 
 # stargazer table
 
@@ -234,11 +243,13 @@ fig_2 <- ggarrange(fig_2_a, fig_2_b,
 
 # Col 1. Taken from replication code
 
-pvote1<-lm(curr.pct ~  prev.pct + fema.dis  + log(ppinc.adj) + pinc.chg + cong.pres + pres.party  + comp + ev + incumb + as.factor(state), data = data1)
+pvote1 <- lm(curr.pct ~  prev.pct + fema.dis  + log(ppinc.adj) + pinc.chg + cong.pres + pres.party  + comp + ev + incumb + as.factor(state), 
+             data = data1)
 
 # Col 2. Taken from replication code
 
-pvote2<-lm(curr.pct ~  prev.pct + sqrt(fema.dis)  + log(ppinc.adj) + pinc.chg + cong.pres + pres.party  + comp + ev + incumb + as.factor(state), data = data1)
+pvote2 <- lm(curr.pct ~  prev.pct + sqrt(fema.dis)  + log(ppinc.adj) + pinc.chg + cong.pres + pres.party  + comp + ev + incumb + as.factor(state),
+             data = data1)
 
 # making stargazer table
 
@@ -531,7 +542,10 @@ significant.
 
 ## Extension: predictions
 
-```{r ext}
+Need to make this way more detailed. Maybe I take states with the biggest
+changes in electoral competitiveness
+
+```{r ext_FL}
 
 FL <- data %>%
   filter(state == "Florida")
@@ -558,7 +572,7 @@ FL_pre_1 <- FL_pre %>%
 
 # post stafford act
 
-FL_post_pred <- predict(reg1, newdata = FL_post)
+FL_post_pred <- predict(reg2, newdata = FL_post)
 
 FL_post_1 <- FL_post %>%
   cbind(FL_post_pred) %>%
@@ -584,63 +598,152 @@ FL_comb %>%
   theme_classic()
 
 
+`
 ```
 
 
 ```{r}
+# arranging to find the states with the most variation in competitiveness. Those
+# in top ten are Nevada, Georgia, New Hampshire, Arizona, MA, RI, FL, NY, WY, UT
 
-PA <- data %>%
-  filter(state == "Pennsylvania")
-
-PA %>% 
-  arrange(desc(fema.dis))
-
-# making predictions for PA pre and post stafford act
-
-PA_pre <- PA %>%
-  filter(year < 1989)
-
-PA_post <- PA %>%
-  filter(year > 1988)
-
-# pre stafford act
-
-PA_pre_pred <- predict(reg1, newdata = PA_pre)
-
-PA_pre_1 <- PA_pre %>%
-  cbind(PA_pre_pred) %>%
-  mutate(yhat = PA_pre_pred) %>%
-  select(-PA_pre_pred)
-
-# post stafford act
-
-PA_post_pred <- predict(reg1, newdata = PA_post)
-
-PA_post_1 <- PA_post %>%
-  cbind(PA_post_pred) %>%
-  mutate(yhat = PA_post_pred) %>%
-  select(-PA_post_pred)
-
-# combining the prediction dfs
-
-PA_comb <- rbind(PA_pre_1, PA_post_1)
+most_comp_states <- data %>%
+  group_by(state) %>%
+  summarise(max = max(comp),
+            min = min(comp),
+            diff = max - min) %>%
+  arrange(desc(diff)) %>%
+  head(5) %>%
+  pull(state)
 
 
-PA_comb %>%
-  ggplot(aes(x = year)) +
-  geom_point(aes(y = yhat), col = "red") +
-  geom_point(aes(y = fema.dis), col = "blue") +
-  theme_classic()
+# going to plot the competitiveness over time
 
+variable_data <- data %>%
+  filter(state %in% most_comp_states)
 
-PA_comb %>%
-  ggplot(aes(x = comp, y = yhat)) +
+ext_1 <- variable_data %>%
+  ggplot(aes(x = year, y = comp, col = state)) +
   geom_point() +
-  labs(title = "PA Competitiveness over Time") +
+  geom_line() +
+  labs(title = "Competitiveness over Time",
+       subtitle = "States with most variation in competitiveness",
+       x = "Year",
+       y = "Competitiveness") +
   theme_classic()
+  
 ```
 
 
+```{r include = FALSE}
 
+# now going to make a function that saves predictions for states
+
+state_comp_pred <- function(s){
+  
+  # state df
+  
+  state_df <- data %>%
+    filter(state == s)
+  
+  # data pre and post
+  
+  state_pre <- state_df %>%
+    filter(year < 1989)
+  state_post <- state_df %>%
+    filter(year > 1988)
+  
+  # pre preds
+  
+  pre_pred <- predict(reg1, newdata = state_pre)
+  pre_1 <- state_pre %>%
+    cbind(pre_pred) %>%
+    mutate(yhat = pre_pred) %>%
+    select(-pre_pred)
+  
+  # post preds
+  
+  post_pred <- predict(reg2, newdata = state_post)
+  post_1 <- state_post %>%
+    cbind(post_pred) %>%
+    mutate(yhat = post_pred) %>%
+    select(-post_pred)
+  
+  # combining pred dfs
+  
+  state_comb <- rbind(pre_1, post_1)
+  
+  # plot of predictions vs actual
+  
+  pred_vs_real <- state_comb %>%
+    ggplot(aes(x = year)) +
+    geom_point(aes(y = yhat), col = "red") +
+    geom_line(aes(y = yhat), col = "red") +
+    geom_point(aes(y = fema.dis), col = "blue") +
+    geom_linet(aes(y = fema.dis), col = "blue") +
+    labs(title = paste0(s, " Model Performance"),
+         subtitle = "Predictions in red",
+         x = "Year",
+         y = "Disaster Declarations") +
+    theme_classic()
+  
+  # actual disasters
+  
+  priv.dis <- state_comb %>%
+    ggplot(aes(x = year, y = priv.dis)) +
+    geom_point(col = "steelblue2") +
+    labs(title = "Actual Disasters",
+         subtitle = "Positive model coefficient (pre and post)",
+         y = "Actual Disasters",
+         x = "Year") +
+    theme_classic()
+  
+  # comp
+  
+  comp <- state_comb %>%
+    ggplot(aes(x = year, y = comp)) +
+    geom_point(col = "steelblue2") +
+    labs(title = "Competitiveness",
+         subtitle = "Positive model coefficient post, negative pre",
+         y = "Competitiveness",
+         x = "Year") +
+    theme_classic()
+  
+  # p4
+  
+  p4 <- state_comb %>%
+    ggplot(aes(x = year, y = p4)) +
+    geom_point(col = "steelblue2") +
+    labs(title = "4th Year in Term",
+         subtitle = "Positive model coefficient (pre and post)",
+         y = "4th year",
+         x = "Year") +
+    theme_classic()
+  
+  results <- list(pred_vs_real, priv.dis,
+                  comp, p4)
+  
+  return(results)
+  
+    
+}
+
+# key coefficients are priv.dis, comp, p4
+```
+
+```{r}
+
+# function to arrange the plots I made above
+
+ext_grid <- function(s){
+  graphs <- state_comp_pred(s)
+  grid <- ggarrange(graphs[[1]], graphs[[2]], 
+             graphs[[3]], graphs[[4]])
+  return(grid)
+
+}
+
+ext_grid("Alabama")
+
+```
 
 
