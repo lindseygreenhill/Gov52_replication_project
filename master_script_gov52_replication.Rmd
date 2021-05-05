@@ -279,12 +279,14 @@ tbl_3 <- stargazer(pvote1, pvote2,
 ```
 
 # Replication of Political Disaster: Unilateral Powers, Electoral Incentives,
-and Presidential Disaster Declarations
+# and Presidential Disaster Declarations
 
 In the following report, I replicate Andrew Reeves's 2011 paper "Political
 Disaster: Unilateral Powers, Electoral Incentives,and Presidential Disaster
 Declarations." I first provide an overview of the original paper, then explain
-my replication process, and finally propose an extension to Reeves's work.
+my replication process, and finally propose an extension to Reeves's work. ^[The
+data and code for this report can obtained at
+https://github.com/lindseygreenhill/Gov52_replication_project]
 
 ## Overview
 
