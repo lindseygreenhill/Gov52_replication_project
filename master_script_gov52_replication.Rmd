@@ -279,14 +279,17 @@ tbl_3 <- stargazer(pvote1, pvote2,
 ```
 
 # Replication of Political Disaster: Unilateral Powers, Electoral Incentives,
-# and Presidential Disaster Declarations
+# and Presidential Disaster Declarations ^[The
+data and code for this report can obtained at
+https://github.com/lindseygreenhill/Gov52_replication_project]
 
 In the following report, I replicate Andrew Reeves's 2011 paper "Political
 Disaster: Unilateral Powers, Electoral Incentives,and Presidential Disaster
-Declarations." I first provide an overview of the original paper, then explain
-my replication process, and finally propose an extension to Reeves's work. ^[The
-data and code for this report can obtained at
-https://github.com/lindseygreenhill/Gov52_replication_project]
+Declarations." ^[Reeves, Andrew. "Political Disaster: Unilateral Powers,
+Electoral Incentives, and Presidential Disaster Declarations." The Journal of
+Politics 73, no. 4 (2011): 1142-151.] I first provide an overview of the
+original paper, then explain my replication process, and finally propose an
+extension to Reeves's work.
 
 ## Overview
 
@@ -306,7 +309,11 @@ the president to provide disaster relief. Ultimately, Reeves finds that after
 number and disaster declarations. Additionally, Reeves finds evidence that there
 is a positive relationship between disaster declarations and electoral support,
 meaning that states who received more disaster declarations were more likely to
-support the incumbent president in the next election.
+support the incumbent president in the next election. In this report, I replicate
+all of Reeves's models and figures in the Replication section. My findings are
+consistent with his findings. I also extend his paper by looking at model 
+performance in key states from 1981 to 2004. I find mixed results in this 
+extension.
 
 ## Replication
 
@@ -559,7 +566,7 @@ predictions after 1988 were made with the post-Stafford model.
 
 
 
-```{r echo=FALSE}
+```{r echo=FALSE, message=FALSE}
 
 # arranging to find the states with the most variation in competitiveness. Those
 # in top ten are Nevada, Georgia, New Hampshire, Arizona, MA, RI, FL, NY, WY, UT
@@ -805,6 +812,23 @@ should dive into the durability of Reeves's model in the 2010's and 2020's.
 
 ## Conclusion 
 
+In his original paper, Reeves finds that competitiveness is a statistically
+significant predictor of presidential disaster declarations. He also finds 
+that states who receive more disaster declarations typically more in 
+favor of the President or his party. However, this effect was not present
+until after the Stafford Act in 1988. In this report, I replicated all of 
+the paper's models and figures as well as tested the model performance
+on MA, AZ, GA, NV, and NH. These five states had the most variable competitiveness
+over the 23 year period. The model consistently underperformed actual disaster
+declarations and did not appear to be particulary senstive to any of the model's
+primary predictors.
+
+Further research could look at whether or not Covid-19 relief is correlated
+with competitiveness or whether increased federal relief is associated with 
+increased support for Donald Trump in the 2020 election. Other research could
+also investigate whether or not political support is still linked to economy
+status, as more recent work has suggested stronger partisan attachments have
+lessened the importance of incumbent performance. 
 
 
 
