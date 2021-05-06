@@ -544,12 +544,23 @@ significant.
 
 ## Extension: predictions
 
-Need to make this way more detailed. Maybe I take states with the biggest
-changes in electoral competitiveness
+In this section, I will look at how well Model 1 performed in certain states.
+I chose to look at the states with the 5 largest variations in competitiveness
+across 1981 to 2004. Those states ended up being Arizona, Georgia, Massachusetts,
+Nevada, and New Hampshire. Looking at the visualization below, we can see
+that MA grew considerably less competitive over time. NV, NH, GA, and AZ
+all grew considerably more competitive over time. 
+
+I looked at the predictions relative to 3 of the most significant coefficients
+in the model, competitiveness, actual disasters, and fourth year in term.
+
+All predictions before 1989 were made with the pre-Stafford era model. All 
+predictions after 1988 were made with the post-Stafford model. 
 
 
 
 ```{r echo=FALSE}
+
 # arranging to find the states with the most variation in competitiveness. Those
 # in top ten are Nevada, Georgia, New Hampshire, Arizona, MA, RI, FL, NY, WY, UT
 
@@ -581,6 +592,7 @@ ext_1
   
 ```
 
+\newpage
 
 ```{r include = FALSE}
 
@@ -692,13 +704,109 @@ ext_grid <- function(s){
 
 ```
 
+### Arizona
+
+Looking at the graphs below, the model consistently under-predicted disaster
+declarations in Arizona. However, we do see the model spike when the number of
+actual disasters increased, which is consistent with the model. Interestingly,
+we do not see the predictions substantively rise as competitiveness rise,
+although the predictions do rise slightly with competitiveness. Similarly,
+predicted disaster declarations do not seem to rise in the 4th term expect for
+one instance in 1996. In fact, they decrease in most fourth term years.
+
 ```{r echo=FALSE}
 ext_grid("Arizona")
-ext_grid("Georgia")
+```
+
+\newpage
+
+### Massachusetts
+
+Similar to the Arizona situation, the model consistently under-predicted disaster
+declarations in Massachusetts. We do not see the predictions lower considerably
+with the competitiveness decreasing. As with the Arizona predictions, the 
+model seems to react more to actual disasters. We do see more of a reaction
+for the fourth year in term for Massachusetts. 
+
+```{r echo=FALSE}
 ext_grid("Massachusetts")
-ext_grid("Nevada")
+```
+
+\newpage
+
+### Georgia
+
+The model massively underpredicts most years in Georgia, especially before the
+Stafford Act. I'm not sure what is leading to these drastic numbers, but it is
+worth looking further into. The model predictions do not seem to react in any
+real way to an increase in competitiveness, actual disasters, or it being
+the fourth year in term. 
+
+```{r echo=FALSE}
+ext_grid("Georgia")
+```
+
+\newpage
+
+### New Hampshire
+
+The model seems to do a better job for New Hampshire. The predictions start to 
+increase steadily from about 1990, when both competittiveness and actual 
+disasters tended to increase. The predictions also seem to react very mildly
+to it being the fourth year in term. 
+
+```{r echo=FALSE}
 ext_grid("New Hampshire")
 ```
+
+\newpage
+
+### Nevada
+
+As is the pattern in the previous states, the model consistently underpredicts
+the number of disaster declarations in Nevada. However, We do see an steady increase
+in the predictions as competitiveness increases. The model also seems to react
+to the actual disasters, but not by as much I would expect it to. 
+
+```{r echo=FALSE}
+ext_grid("Nevada")
+```
+
+\newpage
+
+### Summary
+
+Looking the the model performance in these 5 key states gives us insight into
+how the model reacts to changes in significant predictors. Evidently, the model
+consistently underpredicts the number of disaster declarations in these states. 
+Moreover, the model seems to react very slightly, if at all, to competitiveness,
+actual disasters, and it being the fourth year in term. 
+
+## Another Proposed Extension
+
+Another possible extension to this model (which I will not look too far into in
+this report) would be to extend the concepts of electoral incentives to Covid-19
+relief. It is well documented in political science research that politicians
+tend to give "incentives, or "political pork" to especially important regions in
+the country and that this extra federal spending often results in an increase in
+vote share. ^[Kriner, Douglas., and Andrew Reeves. "The Influence of Federal
+Spending on Presidential Elections." The American Political Science Review 106,
+no. 2 (2012): 348-66. Accessed May 6, 2021.
+http://www.jstor.org/stable/41495082.] Thus, it is possible that differing
+levels of COVID-19 relief could have affected the 2020 election. On the other
+hand, there is a good possibility that this federal spending did not affect the
+election, as more recent research has suggested that presidential approval has
+become increasingly less motivated by economic activity. ^[Donovan, Kathleen,
+Kellstedt, Paul M, Key, Ellen M, and Lebo, Matthew J. "Motivated Reasoning,
+Public Opinion, and Presidential Approval." Political Behavior 42, no. 4 (2020):
+1201-221] With this is mind, it is also possible that the effects and concepts
+Reeves found in his paper are no longer applicable today. Further research
+should dive into the durability of Reeves's model in the 2010's and 2020's.
+
+## Conclusion 
+
+
+
 
 
 
