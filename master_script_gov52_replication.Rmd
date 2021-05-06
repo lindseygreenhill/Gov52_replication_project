@@ -278,8 +278,7 @@ tbl_3 <- stargazer(pvote1, pvote2,
           keep.stat = c("n", "rsq",  "adj.rsq"))
 ```
 
-# Replication of Political Disaster: Unilateral Powers, Electoral Incentives,
-# and Presidential Disaster Declarations ^[The
+# Replication of Political Disaster: Unilateral Powers, Electoral Incentives, and Presidential Disaster Declarations ^[The
 data and code for this report can obtained at
 https://github.com/lindseygreenhill/Gov52_replication_project]
 
@@ -830,6 +829,19 @@ also investigate whether or not political support is still linked to economy
 status, as more recent work has suggested stronger partisan attachments have
 lessened the importance of incumbent performance. 
 
+## Bibliography
+
+Donovan, Kathleen, Kellstedt, Paul M, Key, Ellen M, and Lebo, Matthew J.
+"Motivated Reasoning, Public Opinion, and Presidential Approval." Political
+Behavior 42, no. 4 (2020): 1201-221
+
+Kriner, Douglas., and Andrew Reeves. "The Influence of Federal Spending on
+Presidential Elections." The American Political Science Review 106, no. 2
+(2012): 348-66. Accessed May 6, 2021. http://www.jstor.org/stable/41495082.
+
+Reeves, Andrew. "Political Disaster: Unilateral Powers,
+Electoral Incentives, and Presidential Disaster Declarations." The Journal of
+Politics 73, no. 4 (2011): 1142-151.
 
 
 

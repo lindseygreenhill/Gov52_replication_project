@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.4.30)  6 MAY 2021 15:13
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.4.30)  6 MAY 2021 15:45
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -596,109 +596,109 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 73.
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <14.4> on input line 82.
+(Font)              <14.4> on input line 80.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 82.
+(Font)              <10> on input line 80.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 82.
+(Font)              <7> on input line 80.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 82.
+(Font)              <5> on input line 80.
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 1
-30.
+28.
 (/Users/lindseygreenhill/Library/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ) [1
 
 {/Users/lindseygreenhill/Library/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdft
 ex.map}]
-Underfull \vbox (badness 10000) detected at line 182
+Underfull \vbox (badness 10000) detected at line 180
  []
 
 [2]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <9> on input line 222.
+(Font)              <9> on input line 220.
 [3]
 <master_script_gov52_replication_files/figure-latex/unnamed-chunk-3-1.pdf, id=1
-40, 469.755pt x 325.215pt>
+39, 469.755pt x 325.215pt>
 File: master_script_gov52_replication_files/figure-latex/unnamed-chunk-3-1.pdf 
 Graphic file (type pdf)
 <use master_script_gov52_replication_files/figure-latex/unnamed-chunk-3-1.pdf>
 Package pdftex.def Info: master_script_gov52_replication_files/figure-latex/unn
-amed-chunk-3-1.pdf  used on input line 315.
+amed-chunk-3-1.pdf  used on input line 313.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 [4 <./master_script_gov52_replication_files/figure-latex/unnamed-chunk-3-1.pdf>
 ]
 <master_script_gov52_replication_files/figure-latex/unnamed-chunk-4-1.pdf, id=1
-53, 469.755pt x 325.215pt>
+52, 469.755pt x 325.215pt>
 File: master_script_gov52_replication_files/figure-latex/unnamed-chunk-4-1.pdf 
 Graphic file (type pdf)
 <use master_script_gov52_replication_files/figure-latex/unnamed-chunk-4-1.pdf>
 Package pdftex.def Info: master_script_gov52_replication_files/figure-latex/unn
-amed-chunk-4-1.pdf  used on input line 338.
+amed-chunk-4-1.pdf  used on input line 336.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 [5 <./master_script_gov52_replication_files/figure-latex/unnamed-chunk-4-1.pdf>
 ] [6]
 <master_script_gov52_replication_files/figure-latex/unnamed-chunk-6-1.pdf, id=1
-77, 469.755pt x 325.215pt>
+76, 469.755pt x 325.215pt>
 File: master_script_gov52_replication_files/figure-latex/unnamed-chunk-6-1.pdf 
 Graphic file (type pdf)
 <use master_script_gov52_replication_files/figure-latex/unnamed-chunk-6-1.pdf>
 Package pdftex.def Info: master_script_gov52_replication_files/figure-latex/unn
-amed-chunk-6-1.pdf  used on input line 466.
+amed-chunk-6-1.pdf  used on input line 464.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 [7 <./master_script_gov52_replication_files/figure-latex/unnamed-chunk-6-1.pdf>
 ]
 <master_script_gov52_replication_files/figure-latex/unnamed-chunk-9-1.pdf, id=1
-88, 469.755pt x 325.215pt>
+87, 469.755pt x 325.215pt>
 File: master_script_gov52_replication_files/figure-latex/unnamed-chunk-9-1.pdf 
 Graphic file (type pdf)
 <use master_script_gov52_replication_files/figure-latex/unnamed-chunk-9-1.pdf>
 Package pdftex.def Info: master_script_gov52_replication_files/figure-latex/unn
-amed-chunk-9-1.pdf  used on input line 482.
+amed-chunk-9-1.pdf  used on input line 480.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 [8 <./master_script_gov52_replication_files/figure-latex/unnamed-chunk-9-1.pdf>
 ]
 <master_script_gov52_replication_files/figure-latex/unnamed-chunk-10-1.pdf, id=
-199, 469.755pt x 325.215pt>
+198, 469.755pt x 325.215pt>
 File: master_script_gov52_replication_files/figure-latex/unnamed-chunk-10-1.pdf
  Graphic file (type pdf)
 <use master_script_gov52_replication_files/figure-latex/unnamed-chunk-10-1.pdf>
 
 Package pdftex.def Info: master_script_gov52_replication_files/figure-latex/unn
-amed-chunk-10-1.pdf  used on input line 496.
+amed-chunk-10-1.pdf  used on input line 494.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 [9 <./master_script_gov52_replication_files/figure-latex/unnamed-chunk-10-1.pdf
 >]
 <master_script_gov52_replication_files/figure-latex/unnamed-chunk-11-1.pdf, id=
-210, 469.755pt x 325.215pt>
+209, 469.755pt x 325.215pt>
 File: master_script_gov52_replication_files/figure-latex/unnamed-chunk-11-1.pdf
  Graphic file (type pdf)
 <use master_script_gov52_replication_files/figure-latex/unnamed-chunk-11-1.pdf>
 
 Package pdftex.def Info: master_script_gov52_replication_files/figure-latex/unn
-amed-chunk-11-1.pdf  used on input line 509.
+amed-chunk-11-1.pdf  used on input line 507.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 [10 <./master_script_gov52_replication_files/figure-latex/unnamed-chunk-11-1.pd
 f>]
 <master_script_gov52_replication_files/figure-latex/unnamed-chunk-12-1.pdf, id=
-221, 469.755pt x 325.215pt>
+220, 469.755pt x 325.215pt>
 File: master_script_gov52_replication_files/figure-latex/unnamed-chunk-12-1.pdf
  Graphic file (type pdf)
 <use master_script_gov52_replication_files/figure-latex/unnamed-chunk-12-1.pdf>
 
 Package pdftex.def Info: master_script_gov52_replication_files/figure-latex/unn
-amed-chunk-12-1.pdf  used on input line 521.
+amed-chunk-12-1.pdf  used on input line 519.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 [11 <./master_script_gov52_replication_files/figure-latex/unnamed-chunk-12-1.pd
 f>]
 <master_script_gov52_replication_files/figure-latex/unnamed-chunk-13-1.pdf, id=
-232, 469.755pt x 325.215pt>
+231, 469.755pt x 325.215pt>
 File: master_script_gov52_replication_files/figure-latex/unnamed-chunk-13-1.pdf
  Graphic file (type pdf)
 <use master_script_gov52_replication_files/figure-latex/unnamed-chunk-13-1.pdf>
 
 Package pdftex.def Info: master_script_gov52_replication_files/figure-latex/unn
-amed-chunk-13-1.pdf  used on input line 534.
+amed-chunk-13-1.pdf  used on input line 532.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 [12 <./master_script_gov52_replication_files/figure-latex/unnamed-chunk-13-1.pd
 f>] [13] (./master_script_gov52_replication.aux)
@@ -707,16 +707,16 @@ LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `master_script_gov52_replication.out' has not
  changed.
-(rerunfilecheck)             Checksum: 607AFA9406F3922EF7078001F02A3E9E;3392.
+(rerunfilecheck)             Checksum: EF42C8B4549FC4F6BD7F7E4F33CAA9AC;3470.
  ) 
 Here is how much of TeX's memory you used:
  11475 strings out of 480954
- 177187 string characters out of 5905761
- 478106 words of memory out of 5000000
+ 177213 string characters out of 5905761
+ 478120 words of memory out of 5000000
  28434 multiletter control sequences out of 15000+600000
  473343 words of font info for 81 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 71i,10n,74p,507b,386s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 71i,10n,74p,722b,386s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/Users/lindseygreenhill/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.
 enc}{/Users/lindseygreenhill/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-m
 athit.enc}{/Users/lindseygreenhill/Library/TinyTeX/texmf-dist/fonts/enc/dvips/l
@@ -738,11 +738,11 @@ ers/lindseygreenhill/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri9.pfb
 ></Users/lindseygreenhill/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy
 6.pfb></Users/lindseygreenhill/Library/TinyTeX/texmf-dist/fonts/type1/public/lm
 /lmsy9.pfb>
-Output written on master_script_gov52_replication.pdf (13 pages, 354981 bytes).
+Output written on master_script_gov52_replication.pdf (13 pages, 356527 bytes).
 
 PDF statistics:
- 327 PDF objects out of 1000 (max. 8388607)
- 279 compressed objects within 3 object streams
+ 329 PDF objects out of 1000 (max. 8388607)
+ 281 compressed objects within 3 object streams
  67 named destinations out of 1000 (max. 500000)
  225 words of extra memory for PDF output out of 10000 (max. 10000000)
 
